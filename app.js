@@ -41,7 +41,10 @@ app.get('/logout', (req, res) => {
 // MAIN END
 // GOOGLE OAUTH BEGIN
 app.get('/auth/google', passport.authenticate('google', {
-    scope: ['https://www.googleapis.com/auth/userinfo.profile']
+    scope: [
+        'https://www.googleapis.com/auth/userinfo.profile',
+        'https://www.googleapis.com/auth/userinfo.email'
+    ]
 }));
 
 app.get('/auth/google/callback',
