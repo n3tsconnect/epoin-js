@@ -5,7 +5,11 @@ const passport = require('passport');
 const auth = require('./auth');
 const cookieParser = require('cookie-parser');
 const cookieSession = require('cookie-session');
-const sessionKey = Math.floor(100000 + Math.random() * 900000);
+const crypto = require('crypto');
+var generate_key = function() {
+    return crypto.randomBytes(16).toString('base64');
+}
+var sessionKey = generate_key();
 // AUTH START
 auth(passport);
 app.use(passport.initialize());
