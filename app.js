@@ -5,12 +5,13 @@ const passport = require('passport');
 const auth = require('./auth');
 const cookieParser = require('cookie-parser');
 const cookieSession = require('cookie-session');
+const sessionKey = Math.floor(100000 + Math.random() * 900000);
 // AUTH START
 auth(passport);
 app.use(passport.initialize());
 app.use(cookieSession({
     name: 'session',
-    keys: ['12395823598728932958798']
+    keys: [sessionKey]
 }));
 app.use(cookieParser());
 // AUTH END
