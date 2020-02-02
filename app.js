@@ -12,8 +12,7 @@ var db = require('./db/mysql_query');
 var generate_key = function() {
     return crypto.randomBytes(16).toString('base64');
 }
-
-
+// HANDLE GET REQUESTS AND POST REQUESTS
 
 var sessionKey = generate_key();
 // AUTH START
@@ -33,7 +32,7 @@ app.get('/', function(req, res) {
         res.cookie('token', req.session.token);
         func.checkLevel(profile).then(function(user) {
             if(user[0]['level'] > 0) {
-                res.render('pages/index', { profile: profile, level: user[0]['level'] });
+                res.render('pages/index', { profile: profile, level: user[0]['level'], page: "home", category: "home" });
             } else {
                 res.json("YOU ARE NOT AUTHORIZED");
             }
@@ -45,7 +44,23 @@ app.get('/', function(req, res) {
     
 });
 
-
+app.get('/add-guru', function(req, res) {
+    profile = req.session.profile;  
+    if (req.session.token) {
+        res.cookie('token', req.session.token);
+        func.checkLevel(profile).then(function(user) {
+            if(user[0]['level'] > 1) {
+                res.render('pages/add-guru', { profile: profile, level: user[0]['level'], category: "admin", page: "tambah-guru" });
+            } else {
+                res.json("YOU ARE NOT AUTHORIZED");
+            }
+        })
+    } else {
+        res.cookie('token', '');
+        res.redirect('/auth/google');
+    }
+    
+});
 
 app.get('/logout', (req, res) => {
     req.logout();
@@ -53,6 +68,20 @@ app.get('/logout', (req, res) => {
     res.redirect('/');
 });
 // MAIN END
+
+app.get('/post/teacher-table', function(req, res) {
+    if (req.session.token) {
+        db.query("select * from users", function(err, result){
+            if (err) throw err;
+            res.json(result)
+            console.log("request received")
+        })
+    } else {
+        res.cookie('token', '')
+        res.redirect('/auth/google')
+    }
+})
+
 // GOOGLE OAUTH BEGIN
 app.get('/auth/google', passport.authenticate('google', {
     scope: [
@@ -70,11 +99,12 @@ app.get('/auth/google/callback',
         req.session.profile = req.user.profile;
         db.query('SELECT * from users where id=?', [ req.user.profile["id"] ], function(error, results) {
             if(results[0] === undefined || results[0].length == 0) {
-                db.query('INSERT INTO users (id, email, level) VALUES (?, ?, 0)', [req.user.profile["id"], req.user.profile.emails[0].value], function (err) {
+                db.query('INSERT INTO users (id, nama, email, level) VALUES (?, ?, ?, 0)', [req.user.profile["id"], req.user.profile["displayName"], req.user.profile.emails[0].value], function (err) {
                     if (err) throw err;
                     console.log("1 account inserted");
                 })
             }
+            console.log()
         } )
         res.redirect('/');
     }

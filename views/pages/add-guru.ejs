@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>E-Poin | Dashboard</title>
+        <% include ../partials/head %>
+    </head>
+
+    <body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+    <header>
+        <% include ../partials/header %>
+    </header>
+
+    <sidebar>
+        <% include ../partials/sidebar %>
+    </sidebar>
+
+    <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <div class="content-header">
+              <div class="container-fluid">
+                <div class="row mb-2">
+                  <div class="col-sm-6">  
+                    <h1 class="m-0 text-dark">Tambah Guru</h1>
+                  </div><!-- /.col -->
+                  <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                      <li class="breadcrumb-item"><a href="#">Admin</a></li>
+                      <li class="breadcrumb-item active">Tambah Akun Guru</li>
+                    </ol>
+                  </div><!-- /.col -->
+                </div><!-- /.row -->
+              </div><!-- /.container-fluid -->
+            </div>
+            <!-- /.content-header -->
+        
+            <!-- Main content -->
+            <div class="content">
+              <div class="container-fluid">
+                <div class="row">
+                <div class="col-sm-12">
+                  <div class="card">
+                    <div class="card-header">
+                      <h3 class="card-title">List Akun Terdaftar</h3>
+                      <button type="button" class="btn btn-sm btn-primary float-right" data-toggle="modal" data-target="#modal-add">+</button>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                      <div id="example2_wrapper" class="dataTables_wrapper dt-bootstrap4"><div class="row"><div class="col-sm-12 col-md-6"></div><div class="col-sm-12 col-md-6"></div></div><div class="row"><div class="col-sm-12"><table id="users-table" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
+                        <thead>
+                        <tr role="row"><th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="User ID: activate to sort column descending">ID</th><th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Nama: activate to sort column ascending">Nama</th><th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Email: activate to sort column ascending">Email</th><th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="User Permission Level">Level</th></tr>
+                        </thead>
+                        <tbody class="tbody">
+                        </tbody>
+                        
+                      </table></div></div></div></div></div>
+                    </div>
+                    <!-- /.card-body -->
+                  </div>
+                </div>
+              </div>
+                
+              <div class="modal fade" id="modal-add" style="display: none;" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h4 class="modal-title"></h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">×</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                            <form role="form" method="post" id="editlevel">
+                              <div class="card">
+                                  <div class="card-header">
+                                    <h3 class="card-title">Edit User Level</h3>
+                                  </div>
+                                  <div class="card-body">
+                                      <div class="form-group">
+                                        <label>Name</label>
+                                        <select id="name-dropdown" class="form-control"></select>
+                                      </div>
+
+                                      <div class="form-group">
+                                          <label>Level</label>
+                                          <select id="number-dropdown" class="form-control">
+                                            <option value="1">Guru</option>
+                                            <option value="2">Admin</option>
+                                          </select>
+                                      </div>
+                                  </div>
+                                  <!-- /.card-body -->
+                                  <div class="card-footer">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                  </div>
+                                </form>    
+                              </div>
+                      </div>
+                      
+                    </div>
+                    <!-- /.modal-content -->
+                  </div>
+                  <!-- /.modal-dialog -->
+                </div>
+
+
+                <!-- /.row -->
+              </div><!-- /.container-fluid -->
+            </div>
+            <!-- /.content -->
+    </div>
+
+    <control-sidebar>
+        <% include ../partials/control-sidebar %>
+    </control-sidebar>
+
+    <footer>
+        <% include ../partials/footer %>
+    </footer>
+          <!-- /.content-wrapper -->
+        
+    </div>
+    <!-- jQuery -->
+    <script src="plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="dist/js/adminlte.min.js"></script>   
+    <script>
+    function refreshtable() {
+        $.ajax({
+            url: '/post/teacher-table',
+            method: 'GET',
+            success: function(response) {
+              $("#users-table .tbody").empty;
+              for(let i=0; i < response.length; i++) {
+                var newRow = $("<tr role='row'>");
+                var cols = "";
+                var id = "";
+                var nama = "";
+                var email = "";
+                var level = "";
+                cols += '<td>' + response[i].id + '</td>'
+                cols += '<td>' + response[i].nama + '</td>'
+                cols += '<td>' + response[i].email + '</td>'
+                cols += '<td>' + response[i].level + '</td>'
+                cols += '</tr>'
+                newRow.append(cols);
+                $("#users-table .tbody").append(newRow);
+              }
+              for(let i=0; i < response.length; i++) {
+                var name = response[i].nama;
+                var nameopt = ""
+                nameopt += '<option value="' + name + '">' + name+ '</option>'
+                $("#name-dropdown").append(nameopt);
+              }
+              console.log(response)
+            }
+        });
+      }
+    
+      $(document).ready(function() {     
+      refreshtable()  
+    })
+    
+    </script>
+
+    </body>
+
+
+</html>
