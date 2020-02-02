@@ -6,10 +6,14 @@ const auth = require('./auth');
 const cookieParser = require('cookie-parser');
 const cookieSession = require('cookie-session');
 const crypto = require('crypto');
+const func = require('./functions.js')
 var db = require('./db/mysql_query');
+
 var generate_key = function() {
     return crypto.randomBytes(16).toString('base64');
 }
+
+
 
 var sessionKey = generate_key();
 // AUTH START
@@ -24,18 +28,16 @@ app.use(cookieParser());
 app.set('view engine', 'ejs');
 // MAIN
 app.get('/', function(req, res) {
-    profile = req.session.profile;
-    
+    profile = req.session.profile;  
     if (req.session.token) {
         res.cookie('token', req.session.token);
-        db.query('SELECT * from users where id=?', [ profile["id"] ], function(error, results) {
-            console.log(results[0]['level']);
-            if(results[0]['level'] > 0) {
-                res.render('pages/index', { profile: req.session.profile });
+        func.checkLevel(profile).then(function(user) {
+            if(user[0]['level'] > 0) {
+                res.render('pages/index', { profile: profile, level: user[0]['level'] });
             } else {
                 res.json("YOU ARE NOT AUTHORIZED");
             }
-        } )
+        })
     } else {
         res.cookie('token', '');
         res.redirect('/auth/google');
