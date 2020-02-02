@@ -6,9 +6,11 @@ const auth = require('./auth');
 const cookieParser = require('cookie-parser');
 const cookieSession = require('cookie-session');
 const crypto = require('crypto');
+var db = require('./db/mysql_query');
 var generate_key = function() {
     return crypto.randomBytes(16).toString('base64');
 }
+
 var sessionKey = generate_key();
 // AUTH START
 auth(passport);
@@ -22,13 +24,23 @@ app.use(cookieParser());
 app.set('view engine', 'ejs');
 // MAIN
 app.get('/', function(req, res) {
+    profile = req.session.profile;
+    
     if (req.session.token) {
         res.cookie('token', req.session.token);
-        res.render('pages/index', { profile: req.session.profile });
+        db.query('SELECT * from users where id=?', [ profile["id"] ], function(error, results) {
+            console.log(results[0]['level']);
+            if(results[0]['level'] > 0) {
+                res.render('pages/index', { profile: req.session.profile });
+            } else {
+                res.json("YOU ARE NOT AUTHORIZED");
+            }
+        } )
     } else {
         res.cookie('token', '');
-        res.redirect('/auth/google')
+        res.redirect('/auth/google');
     }
+    
 });
 
 
@@ -54,6 +66,14 @@ app.get('/auth/google/callback',
     (req, res) => {
         req.session.token = req.user.token;
         req.session.profile = req.user.profile;
+        db.query('SELECT * from users where id=?', [ req.user.profile["id"] ], function(error, results) {
+            if(results[0] === undefined || results[0].length == 0) {
+                db.query('INSERT INTO users (id, email, level) VALUES (?, ?, 0)', [req.user.profile["id"], req.user.profile.emails[0].value], function (err) {
+                    if (err) throw err;
+                    console.log("1 account inserted");
+                })
+            }
+        } )
         res.redirect('/');
     }
 );
