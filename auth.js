@@ -9,9 +9,9 @@ module.exports = (passport) => {
         done(null, user);
     });
     passport.use(new GoogleStrategy({
-            clientID: "CLIENT ID HERE",
-            clientSecret: "CLIENT SECRET HERE",
-            callbackURL: "http://*SERVER IP ADDRESS HERE*/auth/google/callback"
+            clientID: process.env.PASSPORT_GOOGLE_CLIENTID,
+            clientSecret: process.env.PASSPORT_GOOGLE_CLIENTSECRET,
+            callbackURL: "http://" + process.envPASSPORT_GOOGLE_CALLBACKDOMAIN + "/auth/google/callback"
         },
         (token, refreshToken, profile, done) => {
             console.log(profile);
