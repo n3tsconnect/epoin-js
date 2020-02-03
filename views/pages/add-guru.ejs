@@ -70,7 +70,7 @@
                         </button>
                       </div>
                       <div class="modal-body">
-                            <form role="form" method="post" id="editlevel">
+                            <form role="form" method="post" id="editlevel" action="/admin/add-guru">
                               <div class="card">
                                   <div class="card-header">
                                     <h3 class="card-title">Edit User Level</h3>
@@ -78,12 +78,12 @@
                                   <div class="card-body">
                                       <div class="form-group">
                                         <label>Name</label>
-                                        <select id="name-dropdown" class="form-control"></select>
+                                        <select name="name" id="name-dropdown" class="form-control"></select>
                                       </div>
 
                                       <div class="form-group">
                                           <label>Level</label>
-                                          <select id="number-dropdown" class="form-control">
+                                          <select name="level" id="number-dropdown" class="form-control">
                                             <option value="1">Guru</option>
                                             <option value="2">Admin</option>
                                           </select>
@@ -91,7 +91,7 @@
                                   </div>
                                   <!-- /.card-body -->
                                   <div class="card-footer">
-                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                    <input type="submit" class="btn btn-primary" value="Submit Form" />
                                   </div>
                                 </form>    
                               </div>
@@ -132,7 +132,7 @@
             url: '/post/teacher-table',
             method: 'GET',
             success: function(response) {
-              $("#users-table .tbody").empty;
+              $("#users-table .tbody").empty();
               for(let i=0; i < response.length; i++) {
                 var newRow = $("<tr role='row'>");
                 var cols = "";
@@ -160,8 +160,16 @@
       }
     
       $(document).ready(function() {     
-      refreshtable()  
-    })
+        refreshtable()
+        $("form").submit(function(e) {
+          e.preventDefault();
+          var post_url = $(this).attr("action");
+          var request_method = $(this).attr("method");
+          var form_data = $(this).serialize();
+          console.log(form_data);
+          refreshtable();
+        })
+      })
     
     </script>
 

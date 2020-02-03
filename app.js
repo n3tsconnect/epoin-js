@@ -40,7 +40,7 @@ app.get('/', function(req, res) {
         })
     } else {
         res.cookie('token', '');
-        res.redirect('/auth/google');
+        res.redirect('/login');
     }
     
 });
@@ -58,9 +58,13 @@ app.get('/add-guru', function(req, res) {
         })
     } else {
         res.cookie('token', '');
-        res.redirect('/auth/google');
+        res.redirect('/login');
     }
     
+});
+
+app.get('/logout', (req, res) => {
+    res.render('pages/login');
 });
 
 app.get('/logout', (req, res) => {
