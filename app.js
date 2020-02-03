@@ -63,7 +63,7 @@ app.get('/add-guru', function(req, res) {
     
 });
 
-app.get('/logout', (req, res) => {
+app.get('/login', (req, res) => {
     res.render('pages/login');
 });
 
