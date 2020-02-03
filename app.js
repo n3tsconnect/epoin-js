@@ -35,7 +35,7 @@ app.get('/', function(req, res) {
             if(user[0]['level'] > 0) {
                 res.render('pages/index', { profile: profile, level: user[0]['level'], page: "home", category: "home" });
             } else {
-                res.json("YOU ARE NOT AUTHORIZED");
+                res.redirect('/unauthorized');
             }
         })
     } else {
@@ -53,8 +53,7 @@ app.get('/add-guru', function(req, res) {
             if(user[0]['level'] > 1) {
                 res.render('pages/add-guru', { profile: profile, level: user[0]['level'], category: "admin", page: "tambah-guru" });
             } else {
-                res.json("YOU ARE NOT AUTHORIZED");
-            }
+                res.redirect('/unauthorized');            }
         })
     } else {
         res.cookie('token', '');
@@ -72,6 +71,10 @@ app.get('/logout', (req, res) => {
     req.session = null;
     res.redirect('/');
 });
+
+app.get('/unauthorized', (req, res) => {
+    res.render('pages/unauthorized')
+})
 // MAIN END
 
 app.get('/post/teacher-table', function(req, res) {

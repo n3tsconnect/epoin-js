@@ -4,7 +4,7 @@
         <a href="index3.html" class="brand-link">
           <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
                style="opacity: .8">
-          <span class="brand-text font-weight-light">AdminLTE 3</span>
+          <span class="brand-text font-weight-light">E-Poin N3TS</span>
         </a>
     
         <!-- Sidebar -->
@@ -69,9 +69,9 @@
                   </li>
 
                   <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="#" class="nav-link <% if (page == 'tambah-siswa') { %> active <% } %>">
                       <i class="fas fa-user-plus nav-icon"></i>
-                      <p>Siswa</p>
+                      <p>Tambah Data Siswa</p>
                     </a>
                   </li>                  
                   
@@ -79,6 +79,7 @@
 
               </li>
             <% } %>
+            <hr class="m-2">
             <li class="nav-item">
               <a href="/logout" class="nav-link">
                 <i class="text-danger nav-icon fas fa-sign-out-alt"></i>
