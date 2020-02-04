@@ -11,6 +11,9 @@ const crypto = require('crypto');
 var db = require('../db/mysql_query');
 const knex = require('../db/knex');
 
+app.use(express.urlencoded());
+app.use(express.json());
+
 var generate_key = function() {
     return crypto.randomBytes(16).toString('base64');
 }
