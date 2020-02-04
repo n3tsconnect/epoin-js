@@ -4,7 +4,7 @@
         <a href="index3.html" class="brand-link">
           <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
                style="opacity: .8">
-          <span class="brand-text font-weight-light">AdminLTE 3</span>
+          <span class="brand-text font-weight-light">E-Poin N3TS</span>
         </a>
     
         <!-- Sidebar -->
@@ -26,7 +26,7 @@
                    with font-awesome or any other icon font library -->
                 <li class="nav-item">
                     <a href="/" class="nav-link <% if (page == 'home') { %> active <% } %>">
-                      <i class="nav-icon fas fa-th"></i>
+                      <i class="nav-icon fas fa-home"></i>
                       <p>
                         Home
                       </p>
@@ -54,7 +54,7 @@
             <% if (level > 1) { %>
               <li class="nav-item has-treeview <% if (category== 'admin') { %> menu-open <% } else { %> menu-close <% } %>">
                 <a href="#" class="nav-link <% if (category  == 'admin') { %> active <% } %>">
-                  <i class="nav-icon fas fa-chalkboard-teacher"></i>
+                  <i class="nav-icon fas fa-user-cog"></i>
                   <p>
                        Admin
                     <i class="right fas fa-angle-left"></i>
@@ -63,22 +63,34 @@
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
                     <a href="/add-guru" class="nav-link <% if (page == 'tambah-guru') { %> active <% } %>">
-                      <i class="far nav-icon"></i>
+                      <i class="fas fa-id-badge nav-icon"></i>
                       <p>Tambah Akun Guru</p>
                     </a>
                   </li>
 
                   <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Siswa</p>
+                    <a href="#" class="nav-link <% if (page == 'tambah-siswa') { %> active <% } %>">
+                      <i class="fas fa-user-plus nav-icon"></i>
+                      <p>Tambah Data Siswa</p>
                     </a>
                   </li>                  
                   
                 </ul>
+
               </li>
             <% } %>
+            <hr class="m-2">
+            <li class="nav-item">
+              <a href="/logout" class="nav-link">
+                <i class="text-danger nav-icon fas fa-sign-out-alt"></i>
+                <p class="text-danger">
+                  Sign Out
+                </p>
+              </a>
+            </li>
             </ul>
+
+          
           </nav>
           <!-- /.sidebar-menu -->
         </div>

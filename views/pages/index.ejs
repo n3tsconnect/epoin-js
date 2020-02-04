@@ -39,7 +39,7 @@
               <div class="container-fluid">
                 <div class="row">
                   <!-- /.col-md-6 -->
-                  <div class="col-lg-6">
+                  <div class="col-lg-4">
                       <div class="card">
                           <div class="card card-widget widget-user">
                               <!-- Add the bg color to the header using any of the bg-* classes -->
@@ -59,7 +59,7 @@
                                     <!-- /.description-block -->
                                   </div>
                                   <!-- /.col -->
-                                  <div class="col-sm-6 border-right">
+                                  <div class="col-sm-6">
                                     <div class="description-block">
                                       <span class="description-text">STATUS</span>
                                       <h5 class="description-header">
@@ -84,7 +84,7 @@
                         </div>
                       </div>
 
-                      <div class="col-lg-6">
+                      <div class="col-lg-8">
                           <div class="card">
                             <div class="card-header">
                               <h5 class="m-0">Guru</h5>
@@ -105,7 +105,8 @@
                               <h6 class="card-title">Administration and Maintenance</h6>
               
                               <p class="card-text">Fungsi-fungsi management untuk administrator.</p>
-                              <a href="#" class="btn btn-primary m-1">User Management</a>
+                              <a href="/add-guru" class="btn btn-primary m-1">User Management</a>
+                              <a href="#" class="btn btn-primary m-1">Student Management</a>
                               <a href="#" class="btn btn-primary m-1">Tambah Pelanggaran</a>
                             </div>
                           </div>
@@ -121,6 +122,9 @@
                 <!-- /.row -->
               </div><!-- /.container-fluid -->
             </div>
+            <footer>
+                <% include ../partials/footer %>
+            </footer>
             <!-- /.content -->
     </div>
 
@@ -128,9 +132,7 @@
         <% include ../partials/control-sidebar %>
     </control-sidebar>
 
-    <footer>
-        <% include ../partials/footer %>
-    </footer>
+    
           <!-- /.content-wrapper -->
         
     </div>
