@@ -32,7 +32,7 @@ router.get('/google/callback',
 
 function noToken(res){
     res.cookie('token', '');
-    res.redirect('/auth/google');
+    res.redirect('/login');
 }
 
 module.exports = {

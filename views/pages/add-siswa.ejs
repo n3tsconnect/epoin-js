@@ -21,12 +21,12 @@
               <div class="container-fluid">
                 <div class="row mb-2">
                   <div class="col-sm-6">  
-                    <h1 class="m-0 text-dark">Tambah Guru</h1>
+                    <h1 class="m-0 text-dark">Data Siswa</h1>
                   </div><!-- /.col -->
                   <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                       <li class="breadcrumb-item"><a href="#">Admin</a></li>
-                      <li class="breadcrumb-item active">Tambah Akun Guru</li>
+                      <li class="breadcrumb-item active">Data Siswa</li>
                     </ol>
                   </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -41,14 +41,21 @@
                 <div class="col-sm-12">
                   <div class="card">
                     <div class="card-header">
-                      <h3 class="card-title">List Akun Terdaftar</h3>
-                      <button type="button" class="btn btn-sm btn-warning  float-right" data-toggle="modal" data-target="#modal-add"><i class="fas fa-edit"></i></button>
+                      <h3 class="card-title">List Data Siswa</h3>
+                      <button type="button" class="btn btn-sm btn-success float-right" data-toggle="modal" data-target="#modal-add"><i class="fas fa-plus"></i></button>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                      <div id="example2_wrapper" class="dataTables_wrapper dt-bootstrap4"><div class="row"><div class="col-sm-12 col-md-6"></div><div class="col-sm-12 col-md-6"></div></div><div class="row"><div class="col-sm-12"><table id="users-table" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
+                      <div id="example2_wrapper" class="dataTables_wrapper dt-bootstrap4"><div class="row"><div class="col-sm-12 col-md-6"></div><div class="col-sm-12 col-md-6"></div></div><div class="row"><div class="col-sm-12"><table id="student-table" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
                         <thead>
-                        <tr role="row"><th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="User ID: activate to sort column descending">ID</th><th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Nama: activate to sort column ascending">Nama</th><th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Email: activate to sort column ascending">Email</th><th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="User Permission Level">Level</th></tr>
+                        <tr role="row">
+                          <th class="sorting_asc" tabindex="0" width="4%" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="User ID: activate to sort column descending">No</th>
+                          <th class="sorting" width="25%" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="NIS: activate to sort column ascending">NIS</th>
+                          <th class="sorting" width="40%" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Nama: activate to sort column ascending">Nama</th>
+                          <th class="sorting" tabindex="15%" aria-controls="example2" rowspan="1" colspan="1" aria-label="Kelas">Kelas</th>
+                          <th class="sorting" width="10%" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Status">Status</th>
+                          <th class="sorting" width="5%" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Status">Edit</th>
+                        </tr>
                         </thead>
                         <tbody class="tbody">
                         </tbody>
@@ -64,29 +71,17 @@
                   <div class="modal-dialog">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h4 class="modal-title">Edit User Level</h4>
+                        <h4 class="modal-title">Add Data Siswa</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                           <span aria-hidden="true">×</span>
                         </button>
                       </div>
                       <div class="modal-body">
                         <div class="m-4 pb-4">
-                            <form role="form" method="post" id="editlevel" action="/post/add-guru">
-                                      <div class="form-group">
-                                        <label>Name</label>
-                                        <select name="id" id="name-dropdown" class="form-control"></select>
-                                      </div>
-
-                                      <div class="form-group">
-                                          <label>Level</label>
-                                          <select name="level" id="number-dropdown" class="form-control">
-                                            <option value="1">Guru</option>
-                                            <option value="2">Admin</option>
-                                          </select>
-                                      </div>
+                            <form role="form" method="post" id="add-siswa" action="/admin/add-siswa">
                                       <input type="submit" class="float-right btn btn-primary" value="Submit" />
                                   <!-- /.card-body -->
-                                </form>    
+                            </form>    
                           </div>
                       </div>
                       
@@ -124,10 +119,10 @@
     <script>
     function refreshtable() {
         $.ajax({
-            url: '/post/teacher-table',
+            url: '/post/student-table',
             method: 'GET',
             success: function(response) {
-              $("#users-table .tbody").empty();
+              $("#student-table .tbody").empty();
               for(let i=0; i < response.length; i++) {
                 var newRow = $("<tr role='row'>");
                 var cols = "";
@@ -135,19 +130,28 @@
                 var nama = "";
                 var email = "";
                 var level = "";
-                cols += '<td>' + response[i].id + '</td>'
+                var status;
+                if(response[i].status == 1) {
+                    status = "<td class='text-success'>Aktif</td>"
+                }
+                else {
+                    status = "<td class='text-warning'>Tidak Aktif</td>"
+                }
+                cols += '<td>' + (i + 1) + '</td>'
+                cols += '<td>' + response[i].nis + '</td>'
                 cols += '<td>' + response[i].nama + '</td>'
-                cols += '<td>' + response[i].email + '</td>'
-                cols += '<td>' + response[i].level + '</td>'
+                cols += '<td>' + response[i].nama_kelas + '</td>'
+                cols += status
+                cols += '<td>' + '<button type="button" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></button>' +'</td>'
+
                 cols += '</tr>'
                 newRow.append(cols);
-                $("#users-table .tbody").append(newRow);
+                $("#student-table .tbody").append(newRow);
               }
               for(let i=0; i < response.length; i++) {
                 var name = response[i].nama;
-                var id = response[i].id;
                 var nameopt = ""
-                nameopt += '<option value="' + id + '">' + name + " (ID: " + id + ')</option>'
+                nameopt += '<option value="' + name + '">' + name+ '</option>'
                 $("#name-dropdown").append(nameopt);
               }
               console.log(response)
@@ -157,19 +161,13 @@
     
       $(document).ready(function() {     
         refreshtable()
-        $("form #editlevel").submit(function(e) {
+        $("form").submit(function(e) {
           e.preventDefault();
           var post_url = $(this).attr("action");
           var request_method = $(this).attr("method");
           var form_data = $(this).serialize();
-          $.ajax({
-              url: post_url,
-              type: request_method,
-              data: form_data
-
-          }).done(function(response) {
-              refreshtable();
-          })
+          console.log(form_data);
+          refreshtable();
         })
       })
     
