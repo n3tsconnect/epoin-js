@@ -4,6 +4,21 @@ const auth = require('../auth');
 let noToken = require('../auth').noToken
 const db = require('../../db/mysql_query');
 const bodyParser = require('body-parser')
+var fs = require('fs');
+
+const multer = require('multer');
+
+var storage = multer.diskStorage({
+    destination: function(req, file, cb) {
+        cb(null, '../public/uploads')
+    },
+    filename: function(req, file, cb) {
+        cb(null, file.fieldname + '-' + Date.now())
+    }
+})
+
+var upload = multer({storage: storage})
+
 
 router.get('/', async function(req, res) {
     if (req.user != null) {
@@ -75,7 +90,17 @@ router.get('/post/student-table', function(req, res) {
         db.query("SELECT p.nis, p.nama, p.status, p.kelas, k.id_kelas, k.nama_kelas FROM pelajar as p LEFT JOIN kelas AS k ON p.kelas = k.id_kelas", function(err, result){
             if (err) throw err;
             res.json(result)
-            console.log(result)
+        })
+    } else {
+        noToken(res)
+    }
+})
+
+router.get('/post/list-kelas', function(req, res) {
+    if (req.user != null) {
+        db.query("SELECT * FROM kelas", function(err, result){
+            if (err) throw err;
+            res.json(result)
         })
     } else {
         noToken(res)
@@ -102,6 +127,23 @@ router.post('/post/add-guru', function(req, res) {
         noToken(res)
     }
 })
+
+router.post('/post/add-siswa', upload.single('gambarSiswa'), function(req, res) {
+    user = req.body;
+    if (req.user = !null) {
+        db.query("INSERT INTO pelajar (nama, nis, kelas, telpon, email) VALUES (?, ?, ?, ?, ?)", [user.nama, user.nis, user.kelas, user.telpon, user.email, finalImg], function(err, result){
+            if (err) throw err;
+            res.status(200)
+            res.end()
+            console.log(result)
+        })
+    } else {
+        noToken(res)
+    }
+})
+
+
+
 router.get('/login', function(req,res) {
     res.render('../../views/pages/login')
 })

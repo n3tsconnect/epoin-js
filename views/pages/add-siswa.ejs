@@ -78,8 +78,33 @@
                       </div>
                       <div class="modal-body">
                         <div class="m-4 pb-4">
-                            <form role="form" method="post" id="add-siswa" action="/admin/add-siswa">
-                                      <input type="submit" class="float-right btn btn-primary" value="Submit" />
+                            <form role="form" enctype="multipart/form-data" method="post" id="add-siswa" action="/post/add-siswa">
+                              <div class="form-group">
+                                  <label for="nama">Nama</label>
+                                  <input type="text" class="form-control" id="form-input-nama" placeholder="Nama Siswa" name="nama">
+                              </div>
+
+                              <div class="form-group">
+                                  <label for="nis">NIS</label>
+                                  <input type="text" class="form-control" id="form-input-nis" placeholder="NIS" name="nis">
+                              </div>
+
+                              <div class="form-group">
+                                  <label for="kelas">Kelas</label>
+                                  <select name="kelas" id="kelas-dropdown" class="form-control"></select>
+                              </div>
+
+                              <div class="form-group">
+                                  <label for="telpon">No. Telpon</label>
+                                  <input type="text" class="form-control" id="form-input-telpon" placeholder="Nomor Telepon Siswa" name="telpon">
+                              </div>
+
+                              <div class="form-group">
+                                  <label for="email">Email</label>
+                                  <input type="text" class="form-control" id="form-input-email" placeholder="Email" name="email">
+                              </div>
+
+                              <input type="submit" class="float-right btn btn-primary" value="Submit" />
                                   <!-- /.card-body -->
                             </form>    
                           </div>
@@ -135,7 +160,7 @@
                     status = "<td class='text-success'>Aktif</td>"
                 }
                 else {
-                    status = "<td class='text-warning'>Tidak Aktif</td>"
+                    status = "<td class='text-danger'>Tidak Aktif</td>"
                 }
                 cols += '<td>' + (i + 1) + '</td>'
                 cols += '<td>' + response[i].nis + '</td>'
@@ -159,18 +184,51 @@
         });
       }
     
+    function refreshkelas() {
+      $.ajax({
+          url: '/post/list-kelas',
+          method: 'GET',
+          success: function(response) {
+            for(let i=0; i < response.length; i++) {
+                var kelas = response[i].nama_kelas;
+                var id_kelas = response[i].id_kelas;
+                var kelasopt = ""
+                kelasopt += '<option value="' + id_kelas + '">' + kelas + '</option>'
+                $("#kelas-dropdown").append(kelasopt);
+            }
+          }
+      })
+    }
+
       $(document).ready(function() {     
         refreshtable()
-        $("form").submit(function(e) {
+        refreshkelas()
+      })
+
+      $(function(){
+        $("#add-siswa").submit(function(e) {
           e.preventDefault();
           var post_url = $(this).attr("action");
           var request_method = $(this).attr("method");
           var form_data = $(this).serialize();
-          console.log(form_data);
-          refreshtable();
+          $.ajax({
+              url: post_url,
+              type: request_method,
+              data: form_data,
+              beforeSend: function() {
+                $("#modal-add").modal('toggle');
+                $("#add-siswa").children('input').val('');
+              },
+              success: function() {
+                refreshtable();
+                refreshkelas();
+                alert("Tambah siswa berhasil!")
+              }
+
+          })
         })
       })
-    
+      
     </script>
 
     </body>

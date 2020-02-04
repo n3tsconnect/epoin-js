@@ -17,6 +17,7 @@
     "express": "^4.17.1",
     "express-session": "^1.17.0",
     "knex": "^0.20.8",
+    "multer": "^1.4.2",
     "mysql": "^2.18.1",
     "nanoid": "^2.1.11",
     "node-ejs": "^1.2.3",
