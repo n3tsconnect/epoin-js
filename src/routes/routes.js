@@ -20,8 +20,8 @@ router.get('/', async function(req, res) {
 });
 
 router.get('/add-guru', async function(req, res) {
-    profile = req.user.profile;  
-    if (req.session.token) {
+    if (req.user != null) {
+        profile = req.user.profile;  
         if(req.user.level > 1){
             res.render('pages/add-guru', { profile: profile, level: req.user.level, page: "tambah-guru", category: "admin" });
         } else {
@@ -40,7 +40,7 @@ router.get('/logout', (req, res) => {
 // MAIN END
 
 router.get('/post/teacher-table', function(req, res) {
-    if (req.session.token) {
+    if (req.user != null) {
         db.query("select * from users", function(err, result){
             if (err) throw err;
             res.json(result)
