@@ -71,7 +71,7 @@ router.get('/post/teacher-table', function(req, res) {
 })
 
 router.get('/post/student-table', function(req, res) {
-    if (req.session.token) {
+    if (req.user != null) {
         db.query("SELECT p.nis, p.nama, p.status, p.kelas, k.id_kelas, k.nama_kelas FROM pelajar as p LEFT JOIN kelas AS k ON p.kelas = k.id_kelas", function(err, result){
             if (err) throw err;
             res.json(result)
@@ -83,13 +83,13 @@ router.get('/post/student-table', function(req, res) {
 })
 
 router.post('/post/add-guru', function(req, res) {
-    console.log(req.body.level);
-    var id = req.body.id;
+    console.log(req.user.level);
+    var id = req.user.id;
     var level;
-    if (req.body.level == 1) {
+    if (req.user.level == 1) {
         level = 1
     }
-    if (req.body.level == 0) {
+    if (req.user.level == 0) {
         level = 0
     }
     if (req.session.token) {
