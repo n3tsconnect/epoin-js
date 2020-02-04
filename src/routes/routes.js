@@ -95,7 +95,7 @@ router.post('/post/add-guru', function(req, res) {
     if (req.session.token) {
         db.query("UPDATE users SET level=? WHERE id=?", [level, id], function(err, result){
             if (err) throw err;
-            res.end('{"success" : "Updated Successfully", "status" : 200}');
+            res.status(200)
             console.log(result)
         })
     } else {
