@@ -128,17 +128,23 @@
             method: 'GET',
             success: function(response) {
               $("#users-table .tbody").empty();
+              $("#name-dropdown").empty();
               for(let i=0; i < response.length; i++) {
                 var newRow = $("<tr role='row'>");
                 var cols = "";
                 var id = "";
                 var nama = "";
                 var email = "";
-                var level = "";
+                var level;
+                if (response[i].level == 1) {
+                  level = "Guru";
+                } else if (response[i].level == 2) {
+                  level = "Admin";
+                }
                 cols += '<td>' + response[i].id + '</td>'
                 cols += '<td>' + response[i].nama + '</td>'
                 cols += '<td>' + response[i].email + '</td>'
-                cols += '<td>' + response[i].level + '</td>'
+                cols += '<td>' + level + '</td>'
                 cols += '</tr>'
                 newRow.append(cols);
                 $("#users-table .tbody").append(newRow);
@@ -157,7 +163,10 @@
     
       $(document).ready(function() {     
         refreshtable()
-        $("form #editlevel").submit(function(e) {
+      })
+
+      $(function(){
+        $("#editlevel").submit(function(e) {
           e.preventDefault();
           var post_url = $(this).attr("action");
           var request_method = $(this).attr("method");
@@ -165,10 +174,14 @@
           $.ajax({
               url: post_url,
               type: request_method,
-              data: form_data
+              data: form_data,
+              beforeSend: function() {
+                $("#modal-add").modal('toggle');
+              },
+              complete: function() {
+                refreshtable();
+              }
 
-          }).done(function(response) {
-              refreshtable();
           })
         })
       })

@@ -9,7 +9,7 @@ router.get('/', async function(req, res) {
     if (req.user != null) {
         profile = req.user.profile;  
         if(req.user.level > 0){
-            res.render('pages/index', { profile: profile, level: req.user.level, page: "home", category: "home" });
+            res.render('../../views/pages/index', { profile: profile, level: req.user.level, page: "home", category: "home" });
         } else {
             res.redirect('/unauthorized')
         }
@@ -24,7 +24,7 @@ router.get('/add-guru', async function(req, res) {
     if (req.user != null) {
         profile = req.user.profile;  
         if(req.user.level > 1){
-            res.render('pages/add-guru', { profile: profile, level: req.user.level, page: "tambah-guru", category: "admin" });
+            res.render('../../views/pages/add-guru', { profile: profile, level: req.user.level, page: "tambah-guru", category: "admin" });
         } else {
             res.redirect('/unauthorized')        
         }
@@ -35,10 +35,10 @@ router.get('/add-guru', async function(req, res) {
 
 router.get('/add-siswa', async function(req, res) {
     profile = req.session.profile;  
-    if (req.session.token) {
-        res.cookie('token', req.session.token);
-        if(await auth.getUserLevel(profile.id) > 1){
-            res.render('../../views/pages/add-siswa', { profile: profile, level: req.session.user['level'], page: "tambah-siswa", category: "admin" });
+    if (req.user != null) {
+        profile = req.user.profile;  
+        if(req.user.level > 1){
+            res.render('../../views/pages/add-siswa', { profile: profile, level: req.user.level, page: "tambah-siswa", category: "admin" });
         } else {
             res.redirect('/unauthorized')        
         }
@@ -83,16 +83,16 @@ router.get('/post/student-table', function(req, res) {
 })
 
 router.post('/post/add-guru', function(req, res) {
-    console.log(req.user.level);
-    var id = req.user.id;
+    console.log(req.body);
+    var id = req.body.id;
     var level;
-    if (req.user.level == 1) {
+    if (req.body.level == 1) {
         level = 1
     }
-    if (req.user.level == 0) {
-        level = 0
+    if (req.body.level == 2) {
+        level = 2
     }
-    if (req.session.token) {
+   if (req.user = !null) {
         db.query("UPDATE users SET level=? WHERE id=?", [level, id], function(err, result){
             if (err) throw err;
             res.end('{"success" : "Updated Successfully", "status" : 200}');
