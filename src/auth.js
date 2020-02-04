@@ -1,5 +1,6 @@
 const knex = require('../db/knex')
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+const nanoid = require('nanoid')
 
 function initAuth(passport) {
 
@@ -14,13 +15,32 @@ function initAuth(passport) {
         clientSecret: process.env.PASSPORT_GOOGLE_CLIENTSECRET,
         callbackURL: process.env.PASSPORT_GOOGLE_CALLBACKDOMAIN + "/auth/google/callback"
     },
-        (token, refreshToken, profile, done) => {
-            console.log(profile);
-            return done(null, {
-                profile: profile,
-                token: token
-            });
-        }));
+    async (token, refreshToken, profile, done) => {
+        const fetchedUser = await knex('users').select(['id']).where('google_id', profile.id)
+        let level
+        if(fetchedUser.length == 0){
+            await knex('users').insert({id: nanoid(), email: profile.emails[0].value, google_id: profile.id, nama: profile.displayName, level: 1})
+            level = 1
+            console.log("1 new user!")
+        } else {
+            console.log("existing")
+            const levelFetch = await knex('users').select('level').where('google_id', profile.id).first()
+            level = levelFetch.level
+            let tempGoogleId = profile.id
+            profile.id = fetchedUser.id
+            profile.google_id = tempGoogleId
+        }
+
+        done(null, {
+            profile: profile,
+            token: token,
+            level: level
+        });
+    }));
+}
+
+function noToken(res){
+    res.redirect('/auth/google');
 }
 
 async function getUserLevel(id){
@@ -35,5 +55,6 @@ async function getUserFullInfo(id){
 module.exports = {
     initAuth: initAuth,
     getUserLevel: getUserLevel,
-    getUserFullInfo: getUserFullInfo
+    getUserFullInfo: getUserFullInfo,
+    noToken: noToken
 }
