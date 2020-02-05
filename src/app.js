@@ -8,18 +8,18 @@ const cookieParser = require('cookie-parser');
 const cookieSession = require('cookie-session');
 const session = require('express-session')
 const crypto = require('crypto');
-var db = require('../db/mysql_query');
+let db = require('../db/mysql_query');
 const knex = require('../db/knex');
 
 app.use(express.urlencoded());
 app.use(express.json());
 
-var generate_key = function() {
+let generate_key = function() {
     return crypto.randomBytes(16).toString('base64');
 }
 // HANDLE GET REQUESTS AND POST REQUESTS
 
-var sessionKey = generate_key();
+let sessionKey = generate_key();
 app.use(cookieParser());
 
 auth.initAuth(passport);

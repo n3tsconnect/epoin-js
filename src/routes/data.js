@@ -4,11 +4,11 @@ const auth = require('../auth');
 let noToken = require('../auth').noToken
 const db = require('../../db/mysql_query');
 const bodyParser = require('body-parser')
-var fs = require('fs');
+let fs = require('fs');
 
 const multer = require('multer');
 
-var storage = multer.diskStorage({
+let storage = multer.diskStorage({
     destination: function(req, file, cb) {
         cb(null, '../public/uploads')
     },
@@ -17,7 +17,7 @@ var storage = multer.diskStorage({
     }
 })
 
-var upload = multer({storage: storage})
+let upload = multer({storage: storage})
 
 router.get('/post/teacher-table', function(req, res) {
     if (req.user != null) {
