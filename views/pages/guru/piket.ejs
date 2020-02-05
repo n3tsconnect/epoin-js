@@ -109,42 +109,13 @@
         <script>
 
             $(document).ready(function() {
-              // NISN Search Auto-Complete
-              var nis_search = {
-                url: function(phrase) {
-                  return "/post/nis_search";
-                },
-
-                getValue: function(element) {
-                  return element.name;
-                },
-
-                ajaxSettings: {
-                  dataType: "json",
-                  method: "POST",
-                  data: {
-                    dataType: "json"
-                  }
-                },
-
-                preparePostData: function(data) {
-                  data.phrase = $("#nis-search").val();
-                  return data;
-                },
-
-                requestDelay: 400
-              };
-              
-              $("#nis-search").easyAutocomplete(nis_search);
               // Name Search Auto-Complete
               var name_search = {
                 url: function(phrase) {
                   return "/post/name_search";
                 },
 
-                getValue: function(element) {
-                  return element.name;
-                },
+                getValue: "nama",
 
                 ajaxSettings: {
                   dataType: "json",

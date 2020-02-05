@@ -33,6 +33,10 @@ router.get('/add-siswa', auth.roles.can('admin'), async function(req, res) {
     res.render('pages/admin/add-siswa', { profile: profile, level: req.user.level, page: "tambah-siswa", category: "admin" });
 });
 
+router.get('/piket', auth.roles.can('loggedIn'), async function(req, res) {
+    res.render('pages/guru/piket', { profile: profile, level: req.user.level, page: "piket", category: "guru" });
+});
+
 module.exports = {
     router: router
 }

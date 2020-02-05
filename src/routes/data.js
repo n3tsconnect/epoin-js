@@ -75,9 +75,17 @@ router.post('/post/siswa-data', auth.roles.can('admin'), function(req, res) {
         console.log("1 request")
         res.json(result)
         res.end()
-    })
+    })  
 })
 
+router.post('/post/name_search', auth.roles.can('loggedIn'), function(req, res) {
+    db.query("SELECT nama FROM pelajar", function(err, result){
+        if (err) throw err;
+        console.log("1 request")
+        res.json(result)
+        res.end()
+    })
+})
 
 module.exports = {
     router: router,
