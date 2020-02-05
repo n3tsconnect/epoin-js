@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>E-Poin | Dashboard</title>
+        <title>E-Poin | Data Siswa</title>
         <% include ../../partials/head %>
     </head>
 
@@ -67,54 +67,6 @@
                 </div>
               </div>
                 
-              <div class="modal fade" id="modal-add" style="display: none;" aria-hidden="true">
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h4 class="modal-title">Add Data Siswa</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">×</span>
-                        </button>
-                      </div>
-                      <div class="modal-body">
-                        <div class="m-4 pb-4">
-                            <form role="form" enctype="multipart/form-data" method="post" id="add-siswa" action="/post/add-siswa">
-                              <div class="form-group">
-                                  <label for="nama">Nama</label>
-                                  <input type="text" class="form-control" id="form-input-nama" placeholder="Nama Siswa" name="nama">
-                              </div>
-
-                              <div class="form-group">
-                                  <label for="nis">NIS</label>
-                                  <input type="text" class="form-control" id="form-input-nis" placeholder="NIS" name="nis">
-                              </div>
-
-                              <div class="form-group">
-                                  <label for="kelas">Kelas</label>
-                                  <select name="kelas" id="kelas-dropdown" class="form-control"></select>
-                              </div>
-
-                              <div class="form-group">
-                                  <label for="telpon">No. Telpon</label>
-                                  <input type="text" class="form-control" id="form-input-telpon" placeholder="Nomor Telepon Siswa" name="telpon">
-                              </div>
-
-                              <div class="form-group">
-                                  <label for="email">Email</label>
-                                  <input type="text" class="form-control" id="form-input-email" placeholder="Email" name="email">
-                              </div>
-
-                              <input type="submit" class="float-right btn btn-primary" value="Submit" />
-                                  <!-- /.card-body -->
-                            </form>    
-                          </div>
-                      </div>
-                      
-                    </div>
-                    <!-- /.modal-content -->
-                  </div>
-                  <!-- /.modal-dialog -->
-                </div>
 
 
                 <div class="modal fade" id="modal-add" style="display: none;" aria-hidden="true">
@@ -139,6 +91,11 @@
                                   <input type="text" class="form-control" id="form-input-nis" placeholder="NIS" name="nis">
                               </div>
 
+                              <div class="form-group">
+                                  <label for="thnmasuk">Tahun Masuk</label>
+                                  <input type="date" class="form-control" id="form-input-thnmasuk" name="thnmasuk">
+                              </div>
+                              
                               <div class="form-group">
                                   <label for="kelas">Kelas</label>
                                   <select name="kelas" id="kelas-dropdown" class="form-control"></select>
@@ -187,7 +144,7 @@
                                     <label for="nis">NIS</label>
                                     <input type="text" class="form-control" id="form-edit-nis" placeholder="NIS" name="nis">
                                 </div>
-  
+
                                 <div class="form-group">
                                     <label for="kelas">Kelas</label>
                                     <select name="kelas" id="kelas-edit" class="form-control"></select>
@@ -202,6 +159,8 @@
                                     <label for="telpon">No. Telpon</label>
                                     <input type="text" class="form-control" id="form-edit-telpon" placeholder="Nomor Telepon Siswa" name="telpon">
                                 </div>
+
+                                
   
                                 
   
