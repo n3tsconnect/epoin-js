@@ -34,6 +34,7 @@ app.set('view engine', 'ejs');
 
 app.use('/', require('./routes/routes').router)
 app.use('/', require('./routes/auth').router)
+app.use('/', require('./routes/data').router)
 
 app.use('/dist',express.static(path.join(__dirname, '../public/html/dist')));
 app.use('/plugins',express.static(path.join(__dirname, '../public/html/plugins')));
