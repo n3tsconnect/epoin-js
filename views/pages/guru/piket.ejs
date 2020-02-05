@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>E-Poin | Piket</title>
+        <% include ../../partials/head %>
+    </head>
+
+    <body class="hold-transition sidebar-mini">
+        <div class="wrapper">
+        <header>
+            <% include ../../partials/header %>
+        </header>
+    
+        <sidebar>
+            <% include ../../partials/sidebar %>
+        </sidebar>
+    
+        <div class="content-wrapper">
+                <!-- Content Header (Page header) -->
+                <div class="content-header">
+                  <div class="container-fluid">
+                    <div class="row mb-2">
+                      <div class="col-sm-6">
+                        <h1 class="m-0 text-dark">Home</h1>
+                      </div><!-- /.col -->
+                      <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                          <li class="breadcrumb-item"><a href="#">Home</a></li>
+                          <li class="breadcrumb-item active">Dashboard</li>
+                        </ol>
+                      </div><!-- /.col -->
+                    </div><!-- /.row -->
+                  </div><!-- /.container-fluid -->
+                </div>
+                <!-- /.content-header -->
+            
+                <!-- Main content -->
+                <div class="content">
+                  <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="card">
+                              <div class="card-header">
+                                <h5 class="m-0">Search Berdasarkan NISN</h5>
+                              </div>
+                              <div class="card-body">
+                                  <form>
+                                      <div class="form-group">
+                                        <label for="nisn">Search NIS Siswa</label>
+                                        <input type="text" class="form-control" id="nis-search" aria-describedby="search" placeholder="NISN Siswa">
+                                      </div>
+                                      <button type="submit" class="btn btn-primary">Submit</button>
+                                    </form>
+                              </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="card">
+                              <div class="card-header">
+                                <h5 class="m-0">Search Berdasarkan Nama</h5>
+                              </div>
+                              <div class="card-body">
+                                  <form>
+                                      <div class="form-group">
+                                        <label for="search">Search Nama Siswa</label>
+                                        <input type="text" class="form-control" id="name-search" aria-describedby="search" placeholder="Nama Siswa">
+                                      </div>
+                                      <button type="submit" class="btn btn-primary">Submit</button>
+                                    </form>
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                    
+                    <!-- /.row -->
+                  </div><!-- /.container-fluid -->
+                </div>
+
+                <!-- /.content -->
+        </div>
+    
+        <control-sidebar>
+            <% include ../../partials/control-sidebar %>
+        </control-sidebar>
+    
+        <footer>
+            <% include ../../partials/footer %>
+        </footer>
+              <!-- /.content-wrapper -->
+            
+        </div>
+        <!-- jQuery -->
+        <script src="plugins/jquery/jquery.min.js"></script>
+        <!-- Bootstrap 4 -->
+        <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <!-- AdminLTE App -->
+        <script src="dist/js/adminlte.min.js"></script>   
+        </body>
+
+
+</html>
