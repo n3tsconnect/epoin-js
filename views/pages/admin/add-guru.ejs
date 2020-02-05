@@ -2,17 +2,17 @@
 <html lang="en">
     <head>
         <title>E-Poin | Dashboard</title>
-        <% include ../partials/head %>
+        <% include ../../partials/head %>
     </head>
 
     <body class="hold-transition sidebar-mini">
     <div class="wrapper">
     <header>
-        <% include ../partials/header %>
+        <% include ../../partials/header %>
     </header>
 
     <sidebar>
-        <% include ../partials/sidebar %>
+        <% include ../../partials/sidebar %>
     </sidebar>
 
     <div class="content-wrapper">
@@ -48,7 +48,12 @@
                     <div class="card-body">
                       <div id="example2_wrapper" class="dataTables_wrapper dt-bootstrap4"><div class="row"><div class="col-sm-12 col-md-6"></div><div class="col-sm-12 col-md-6"></div></div><div class="row"><div class="col-sm-12"><table id="users-table" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
                         <thead>
-                        <tr role="row"><th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="User ID: activate to sort column descending">ID</th><th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Nama: activate to sort column ascending">Nama</th><th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Email: activate to sort column ascending">Email</th><th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="User Permission Level">Level</th></tr>
+                        <tr role="row">
+                          <th class="sorting_asc" width="20%" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="User ID: activate to sort column descending">ID</th>
+                          <th class="sorting" width="25%" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Nama: activate to sort column ascending">Nama</th>
+                          <th class="sorting" width="25%" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Email: activate to sort column ascending">Email</th>
+                          <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="User Permission Level">Level</th>
+                        </tr>
                         </thead>
                         <tbody class="tbody">
                         </tbody>
@@ -100,7 +105,7 @@
                 <!-- /.row -->
               </div><!-- /.container-fluid -->
               <footer>
-                  <% include ../partials/footer %>
+                  <% include ../../partials/footer %>
               </footer>
             </div>
             
@@ -108,7 +113,7 @@
     </div>
 
     <control-sidebar>
-        <% include ../partials/control-sidebar %>
+        <% include ../../partials/control-sidebar %>
     </control-sidebar>
 
     

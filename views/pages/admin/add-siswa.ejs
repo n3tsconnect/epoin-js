@@ -2,17 +2,17 @@
 <html lang="en">
     <head>
         <title>E-Poin | Dashboard</title>
-        <% include ../partials/head %>
+        <% include ../../partials/head %>
     </head>
 
     <body class="hold-transition sidebar-mini">
     <div class="wrapper">
     <header>
-        <% include ../partials/header %>
+        <% include ../../partials/header %>
     </header>
 
     <sidebar>
-        <% include ../partials/sidebar %>
+        <% include ../../partials/sidebar %>
     </sidebar>
 
     <div class="content-wrapper">
@@ -117,10 +117,110 @@
                 </div>
 
 
+                <div class="modal fade" id="modal-add" style="display: none;" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h4 class="modal-title">Add Data Siswa</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">×</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <div class="m-4 pb-4">
+                            <form role="form" enctype="multipart/form-data" method="post" id="add-siswa" action="/post/add-siswa">
+                              <div class="form-group">
+                                  <label for="nama">Nama</label>
+                                  <input type="text" class="form-control" id="form-input-nama" placeholder="Nama Siswa" name="nama">
+                              </div>
+
+                              <div class="form-group">
+                                  <label for="nis">NIS</label>
+                                  <input type="text" class="form-control" id="form-input-nis" placeholder="NIS" name="nis">
+                              </div>
+
+                              <div class="form-group">
+                                  <label for="kelas">Kelas</label>
+                                  <select name="kelas" id="kelas-dropdown" class="form-control"></select>
+                              </div>
+
+                              <div class="form-group">
+                                  <label for="telpon">No. Telpon</label>
+                                  <input type="text" class="form-control" id="form-input-telpon" placeholder="Nomor Telepon Siswa" name="telpon">
+                              </div>
+
+                              <div class="form-group">
+                                  <label for="email">Email</label>
+                                  <input type="text" class="form-control" id="form-input-email" placeholder="Email" name="email">
+                              </div>
+
+                              <input type="submit" class="float-right btn btn-primary" value="Submit" />
+                                  <!-- /.card-body -->
+                            </form>    
+                          </div>
+                      </div>
+                      
+                    </div>
+                    <!-- /.modal-content -->
+                  </div>
+                  <!-- /.modal-dialog -->
+                </div>
+
+                <div class="modal fade" id="modal-edit" style="display: none;" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h4 class="modal-title">Add Data Siswa</h4>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <div class="m-4 pb-4">
+                              <form role="form" enctype="multipart/form-data" method="post" id="edit-siswa" action="/post/edit-siswa">
+                                <div class="form-group">
+                                    <label for="nama">Nama</label>
+                                    <input type="text" class="form-control" id="form-edit-nama" placeholder="Nama Siswa" name="nama">
+                                </div>
+  
+                                <div class="form-group">
+                                    <label for="nis">NIS</label>
+                                    <input type="text" class="form-control" id="form-edit-nis" placeholder="NIS" name="nis">
+                                </div>
+  
+                                <div class="form-group">
+                                    <label for="kelas">Kelas</label>
+                                    <select name="kelas" id="kelas-edit" class="form-control"></select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="email">Email</label>
+                                    <input type="text" class="form-control" id="form-edit-email" placeholder="Email" name="email">
+                                </div>
+  
+                                <div class="form-group">
+                                    <label for="telpon">No. Telpon</label>
+                                    <input type="text" class="form-control" id="form-edit-telpon" placeholder="Nomor Telepon Siswa" name="telpon">
+                                </div>
+  
+                                
+  
+                                <input type="submit" class="float-right btn btn-primary" value="Submit" />
+                                    <!-- /.card-body -->
+                              </form>    
+                            </div>
+                        </div>
+                        
+                      </div>
+                      <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                  </div>
+
                 <!-- /.row -->
               </div><!-- /.container-fluid -->
               <footer>
-                  <% include ../partials/footer %>
+                  <% include ../../partials/footer %>
               </footer>
             </div>
             
@@ -128,7 +228,7 @@
     </div>
 
     <control-sidebar>
-        <% include ../partials/control-sidebar %>
+        <% include ../../partials/control-sidebar %>
     </control-sidebar>
 
     
@@ -163,12 +263,11 @@
                     status = "<td class='text-danger'>Tidak Aktif</td>"
                 }
                 cols += '<td>' + (i + 1) + '</td>'
-                cols += '<td>' + response[i].nis + '</td>'
+                cols += '<td class="nis">' + response[i].nis + '</td>'
                 cols += '<td>' + response[i].nama + '</td>'
                 cols += '<td>' + response[i].nama_kelas + '</td>'
                 cols += status
-                cols += '<td>' + '<button type="button" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></button>' +'</td>'
-
+                cols += '<td>' + '<button type="button" class="editrow btn btn-sm btn-warning"><i class="fas fa-edit"></i></button>' +'</td>'
                 cols += '</tr>'
                 newRow.append(cols);
                 $("#student-table .tbody").append(newRow);
@@ -200,9 +299,73 @@
       })
     }
 
+    async function kelasedit() {
+      $.ajax({
+          url: '/post/list-kelas',
+          method: 'GET',
+          success: function(response) {
+            $("#kelas-edit").find('option').remove().end()
+            for(let i=0; i < response.length; i++) {
+                var kelas = response[i].nama_kelas;
+                var id_kelas = response[i].id_kelas;
+                var kelasopt = ""
+                kelasopt += '<option value="' + id_kelas + '">' + kelas + '</option>'
+                $("#kelas-edit").append(kelasopt);
+            }
+          }
+      })
+    }
+
       $(document).ready(function() {     
         refreshtable()
         refreshkelas()
+        kelasedit()
+
+        $(document).on("click", ".editrow", function() {
+          var row = $(this).closest("tr"),
+              tds = row.find("td"),
+              data = [];
+
+              if (tds.length > 0) {
+                tds.each(function() { data.push($(this).text()); });
+                tds.push(data);
+              }
+              console.log(data)
+              var userid = data[1];
+              var nama;
+              var nis
+              var telpon
+              var status
+              var kelas = data[3]
+              var email
+
+              $.ajax({
+                url: '/post/siswa-data',
+                type: 'POST',
+                data: {
+                  id: userid
+                }, beforeSend: function() {
+                },
+                success: function(response) {
+                  nama = response[0]['nama'];
+                  nis = response[0]['nis'];
+                  telpon = response[0]['telpon'];
+                  status = response[0]['status'];
+                  kelas = response[0]['kelas'];
+                  email = response[0]['email'];
+                  
+                  $("#form-edit-nama").val(nama);
+                  $("#form-edit-nis").val(nis);
+                  $("#form-edit-telpon").val(telpon);
+                  $("#form-edit-email").val(email);
+                  $("#kelas-edit").val(1);
+                  $("#modal-edit").modal('toggle');                                 
+                }
+              })
+
+
+
+        })
       })
 
       $(function(){
@@ -226,8 +389,12 @@
               }
 
           })
+
+
+          
         })
       })
+
       
     </script>
 

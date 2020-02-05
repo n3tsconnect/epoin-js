@@ -47,6 +47,7 @@ router.get('/post/list-kelas', function(req, res) {
         db.query("SELECT * FROM kelas", function(err, result){
             if (err) throw err;
             res.json(result)
+            res.end();
         })
     } else {
         noToken(res)
@@ -88,6 +89,19 @@ router.post('/post/add-siswa', upload.single('gambarSiswa'), function(req, res) 
     }
 })
 
+router.post('/post/siswa-data', function(req, res) {
+    var id = req.body.id //Get User ID from POST Request Body
+    if (req.user != null) {
+        db.query("SELECT * FROM pelajar WHERE nis = ?", [id], function(err, result){
+            if (err) throw err;
+            console.log("1 request")
+            res.json(result)
+            res.end()
+        })
+    } else {
+        noToken(res)
+    }
+})
 
 
 

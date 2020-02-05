@@ -39,7 +39,7 @@ router.get('/add-guru', async function(req, res) {
     if (req.user != null) {
         profile = req.user.profile;  
         if(req.user.level > 1){
-            res.render('../../views/pages/add-guru', { profile: profile, level: req.user.level, page: "tambah-guru", category: "admin" });
+            res.render('../../views/pages/admin/add-guru', { profile: profile, level: req.user.level, page: "tambah-guru", category: "admin" });
         } else {
             res.redirect('/unauthorized')        
         }
@@ -53,7 +53,7 @@ router.get('/add-siswa', async function(req, res) {
     if (req.user != null) {
         profile = req.user.profile;  
         if(req.user.level > 1){
-            res.render('../../views/pages/add-siswa', { profile: profile, level: req.user.level, page: "tambah-siswa", category: "admin" });
+            res.render('../../views/pages/admin/add-siswa', { profile: profile, level: req.user.level, page: "tambah-siswa", category: "admin" });
         } else {
             res.redirect('/unauthorized')        
         }

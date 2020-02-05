@@ -40,7 +40,7 @@ function initAuth(passport) {
 }
 
 function noToken(res){
-    res.redirect('/auth/google');
+    res.redirect('/login');
 }
 
 async function getUserLevel(id){
