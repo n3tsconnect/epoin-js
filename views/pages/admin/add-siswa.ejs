@@ -123,6 +123,40 @@
                   <!-- /.modal-dialog -->
                 </div>
 
+                <div class="modal fade" id="modal-image" style="display: none;" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h4 class="modal-title">Upload Foto Siswa</h4>
+                        
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">×</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <div class="m-4 pb-4">
+                            <form role="form" enctype="multipart/form-data" method="post" id="upload-image-siswa" action="/post/add-siswa">
+                              <div class="form-group">
+                                <input class="form-control" type="text" name="nama" id ="upload-nama" placeholder="Nama Siswa" readonly>
+                              </div>
+                              <div class="form-group">
+                                <input class="form-control" type="text" name="nisn" placeholder="nisn" id="upload-nisn" readonly>
+                              </div>
+                              <div class="form-group">
+                                <input type="file" class="form-control-file" id="upload-input-siswa" name='gambarsiswa'>
+                              </div>
+                              <input type="submit" class="float-right btn btn-primary" value="Submit" />
+                                  <!-- /.card-body -->
+                            </form>    
+                          </div>
+                      </div>
+                      
+                    </div>
+                    <!-- /.modal-content -->
+                  </div>
+                  <!-- /.modal-dialog -->
+                </div>
+
                 <div class="modal fade" id="modal-edit" style="display: none;" aria-hidden="true">
                     <div class="modal-dialog">
                       <div class="modal-content">
@@ -226,7 +260,7 @@
                 cols += '<td>' + response[i].nama + '</td>'
                 cols += '<td>' + response[i].nama_kelas + '</td>'
                 cols += status
-                cols += '<td>' + '<button type="button" class="editrow btn btn-sm btn-warning"><i class="fas fa-edit"></i></button>' +'</td>'
+                cols += '<td>' + '<button type="button" class="editrow m-1 btn btn-sm btn-warning"><i class="fas fa-edit"></i></button><button type="button" class="btn btn-sm btn-success m-1 uploadimage" data-toggle="modal" data-target="#modal-image"><i class="fas fa-upload"></i></button>' +'</td>'
                 cols += '</tr>'
                 newRow.append(cols);
                 $("#student-table .tbody").append(newRow);
@@ -321,11 +355,30 @@
                   $("#modal-edit").modal('toggle');                                 
                 }
               })
+        })
+
+        $(document).on("click", ".uploadimage", function() {
+          var row = $(this).closest("tr"),
+              tds = row.find("td"),
+              data = [];
+
+              if (tds.length > 0) {
+                tds.each(function() { data.push($(this).text()); });
+                tds.push(data);
+              }
+              console.log(data)
+              var nis = data[1];
+              var nama = data[2];
+                $("#upload-nama").val(nama);
+                $("#upload-nisn").val(nis);
+                $("#modal-upload").modal('toggle'); 
 
 
 
         })
       })
+
+      
 
       $(function(){
         $("#add-siswa").submit(function(e) {
@@ -346,12 +399,27 @@
                 refreshkelas();
                 alert("Tambah siswa berhasil!")
               }
-
           })
-
-
-          
         })
+        $("#upload-image-siswa").submit(function(e) {
+          e.preventDefault();
+          var formData = new FormData(this);
+          $.ajax({
+            type: "POST",
+            url: "/post/upload-image-siswa",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(r){
+                console.log("result",r)
+            },
+            error: function (e) {
+                console.log("some error", e);
+            }
+          })
+        })
+
+
       })
 
       

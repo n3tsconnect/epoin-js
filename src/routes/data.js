@@ -4,16 +4,18 @@ const auth = require('../auth');
 const db = require('../../db/mysql_query');
 const bodyParser = require('body-parser')
 let fs = require('fs');
+var uuid = require("uuid");
+var path = require('path');
 
 const multer = require('multer');
 
 let storage = multer.diskStorage({
     destination: function(req, file, cb) {
-        cb(null, '../public/uploads')
+        cb(null, '../public/uploads/image')
     },
-    filename: function(req, file, cb) {
-        cb(null, file.fieldname + '-' + Date.now())
-    }
+    filename: function (req, file, cb) {
+        cb(null, uuid.v4() + path.extname(file.originalname));
+      }
 })
 
 let upload = multer({storage: storage})
@@ -58,14 +60,24 @@ router.post('/post/add-guru', auth.roles.can('admin'), function(req, res) {
     })
 })
 
-router.post('/post/add-siswa', auth.roles.can('admin'), upload.single('gambarSiswa'), function(req, res) {
+router.post('/post/add-siswa', auth.roles.can('admin'), function(req, res) {
     user = req.body;
+    console.log(req.file);
     db.query("INSERT INTO pelajar (nama, nis, kelas, telpon, email) VALUES (?, ?, ?, ?, ?)", [user.nama, user.nis, user.kelas, user.telpon, user.email], function(err, result){
         if (err) throw err;
         res.status(200)
         res.end()
         console.log(result)
     })
+})
+
+router.post('/post/upload-image-siswa', auth.roles.can('admin'), upload.single('gambarsiswa'), function(req, res) {
+    var imageurl = '/public/image/' + req.file.filename;
+    db.query("UPDATE pelajar SET foto = ? WHERE nis = ?", [imageurl, req.body.nisn], function(err, result) {
+        if (err) throw err;
+        res.status(200)
+        res.end()
+    })    
 })
 
 router.post('/post/siswa-data', auth.roles.can('admin'), function(req, res) {

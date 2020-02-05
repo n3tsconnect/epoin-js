@@ -41,7 +41,7 @@ app.use('/', require('./routes/data').router)
 app.use('/dist',express.static(path.join(__dirname, '../public/html/dist')));
 app.use('/plugins',express.static(path.join(__dirname, '../public/html/plugins')));
 app.use('/css',express.static(path.join(__dirname, '../public/html')));
-
+app.use('/public/image', express.static(path.join(__dirname, '../public/uploads/image')))
 app.listen(process.env.port || 3000);
 
 console.log('Running at port 3000');
