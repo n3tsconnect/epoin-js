@@ -1,14 +1,13 @@
 const express = require('express')
 let router = express.Router()
 const auth = require('../auth');
-let noToken = require('../auth').noToken
 const db = require('../../db/mysql_query');
 const bodyParser = require('body-parser')
-var fs = require('fs');
+let fs = require('fs');
 
 const multer = require('multer');
 
-var storage = multer.diskStorage({
+let storage = multer.diskStorage({
     destination: function(req, file, cb) {
         cb(null, '../public/uploads')
     },
@@ -17,44 +16,32 @@ var storage = multer.diskStorage({
     }
 })
 
-var upload = multer({storage: storage})
+let upload = multer({storage: storage})
 
-router.get('/post/teacher-table', function(req, res) {
-    if (req.user != null) {
-        db.query("select * from users", function(err, result){
-            if (err) throw err;
-            res.json(result)
-            console.log("request received")
-        })
-    } else {
-        noToken(res)
-    }
+router.get('/post/teacher-table', auth.roles.can('admin'), function(req, res) {
+    db.query("select * from users", function(err, result){
+        if (err) throw err;
+        res.json(result)
+        console.log("request received")
+    })
 })
 
-router.get('/post/student-table', function(req, res) {
-    if (req.user != null) {
-        db.query("SELECT p.nis, p.nama, p.status, p.kelas, k.id_kelas, k.nama_kelas FROM pelajar as p LEFT JOIN kelas AS k ON p.kelas = k.id_kelas", function(err, result){
-            if (err) throw err;
-            res.json(result)
-        })
-    } else {
-        noToken(res)
-    }
+router.get('/post/student-table', auth.roles.can('admin'), function(req, res) {
+    db.query("SELECT p.nis, p.nama, p.status, p.kelas, k.id_kelas, k.nama_kelas FROM pelajar as p LEFT JOIN kelas AS k ON p.kelas = k.id_kelas", function(err, result){
+        if (err) throw err;
+        res.json(result)
+    })
 })
 
-router.get('/post/list-kelas', function(req, res) {
-    if (req.user != null) {
-        db.query("SELECT * FROM kelas", function(err, result){
-            if (err) throw err;
-            res.json(result)
-            res.end();
-        })
-    } else {
-        noToken(res)
-    }
+router.get('/post/list-kelas', auth.roles.can('admin'), function(req, res) {
+    db.query("SELECT * FROM kelas", function(err, result){
+        if (err) throw err;
+        res.json(result)
+        res.end();
+    })
 })
 
-router.post('/post/add-guru', function(req, res) {
+router.post('/post/add-guru', auth.roles.can('admin'), function(req, res) {
     console.log(req.body);
     var id = req.body.id;
     var level;
@@ -64,46 +51,32 @@ router.post('/post/add-guru', function(req, res) {
     if (req.body.level == 2) {
         level = 2
     }
-   if (req.user = !null) {
-        db.query("UPDATE users SET level=? WHERE id=?", [level, id], function(err, result){
-            if (err) throw err;
-            res.status(200)
-            console.log(result)
-        })
-    } else {
-        noToken(res)
-    }
+    db.query("UPDATE users SET level=? WHERE id=?", [level, id], function(err, result){
+        if (err) throw err;
+        res.status(200)
+        console.log(result)
+    })
 })
 
-router.post('/post/add-siswa', upload.single('gambarSiswa'), function(req, res) {
+router.post('/post/add-siswa', auth.roles.can('admin'), upload.single('gambarSiswa'), function(req, res) {
     user = req.body;
-    if (req.user = !null) {
-        db.query("INSERT INTO pelajar (nama, nis, kelas, telpon, email) VALUES (?, ?, ?, ?, ?)", [user.nama, user.nis, user.kelas, user.telpon, user.email], function(err, result){
-            if (err) throw err;
-            res.status(200)
-            res.end()
-            console.log(result)
-        })
-    } else {
-        noToken(res)
-    }
+    db.query("INSERT INTO pelajar (nama, nis, kelas, telpon, email) VALUES (?, ?, ?, ?, ?)", [user.nama, user.nis, user.kelas, user.telpon, user.email], function(err, result){
+        if (err) throw err;
+        res.status(200)
+        res.end()
+        console.log(result)
+    })
 })
 
-router.post('/post/siswa-data', function(req, res) {
+router.post('/post/siswa-data', auth.roles.can('admin'), function(req, res) {
     var id = req.body.id //Get User ID from POST Request Body
-    if (req.user != null) {
-        db.query("SELECT * FROM pelajar WHERE nis = ?", [id], function(err, result){
-            if (err) throw err;
-            console.log("1 request")
-            res.json(result)
-            res.end()
-        })
-    } else {
-        noToken(res)
-    }
+    db.query("SELECT * FROM pelajar WHERE nis = ?", [id], function(err, result){
+        if (err) throw err;
+        console.log("1 request")
+        res.json(result)
+        res.end()
+    })
 })
-
-
 
 
 module.exports = {

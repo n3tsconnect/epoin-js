@@ -17,6 +17,22 @@ router.get('/auth/google/callback',
     }),
 );
 
+router.get('/logout', (req, res) => {
+    req.logout();
+    req.session = null;
+    res.redirect('/');
+});
+// MAIN END
+
+
+router.get('/login', function(req,res) {
+    res.render('pages/login')
+})
+
+router.get('/unauthorized', (req, res) => {
+    res.render('pages/unauthorized')
+});
+
 module.exports = {
     router: router,
 }
