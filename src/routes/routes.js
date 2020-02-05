@@ -19,64 +19,19 @@ let storage = multer.diskStorage({
 
 let upload = multer({storage: storage})
 
-
 router.get('/', async function(req, res) {
-    if (req.user != null) {
-        profile = req.user.profile;  
-        if(req.user.level > 0){
-            res.render('../../views/pages/index', { profile: profile, level: req.user.level, page: "home", category: "home" });
-        } else {
-            res.redirect('/unauthorized')
-        }
-
-    } else {
-        noToken(res)
-    }
-    
+    if(req.user == null) { res.redirect('/login') }
+    profile = req.user.profile;  
+    res.render('pages/index', { profile: profile, level: req.user.level, page: "home", category: "home" });
 });
 
-router.get('/add-guru', async function(req, res) {
-    if (req.user != null) {
-        profile = req.user.profile;  
-        if(req.user.level > 1){
-            res.render('../../views/pages/admin/add-guru', { profile: profile, level: req.user.level, page: "tambah-guru", category: "admin" });
-        } else {
-            res.redirect('/unauthorized')        
-        }
-    } else {
-        noToken(res)
-    }
+router.get('/add-guru', auth.roles.can('admin'), async function(req, res) {
+    res.render('pages/admin/add-guru', { profile: profile, level: req.user.level, page: "tambah-guru", category: "admin" });
 });
 
-router.get('/add-siswa', async function(req, res) {
-    profile = req.session.profile;  
-    if (req.user != null) {
-        profile = req.user.profile;  
-        if(req.user.level > 1){
-            res.render('../../views/pages/admin/add-siswa', { profile: profile, level: req.user.level, page: "tambah-siswa", category: "admin" });
-        } else {
-            res.redirect('/unauthorized')        
-        }
-    } else {
-        noToken(res)
-    }
+router.get('/add-siswa', auth.roles.can('admin'), async function(req, res) {
+    res.render('pages/admin/add-siswa', { profile: profile, level: req.user.level, page: "tambah-siswa", category: "admin" });
 });
-
-router.get('/unauthorized', (req, res) => {
-    res.render('../../views/pages/unauthorized')
-});
-
-router.get('/logout', (req, res) => {
-    req.logout();
-    req.session = null;
-    res.redirect('/');
-});
-// MAIN END
-
-
-router.get('/login', function(req,res) {
-    res.render('../../views/pages/login')
-})
 
 module.exports = {
     router: router

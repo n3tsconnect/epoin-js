@@ -1,6 +1,7 @@
 const knex = require('../db/knex')
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const nanoid = require('nanoid')
+const ConnectRoles = require('connect-roles')
 
 function initAuth(passport) {
 
@@ -39,8 +40,26 @@ function initAuth(passport) {
     }));
 }
 
-function noToken(res){
-    res.redirect('/login');
+let roles = new ConnectRoles({
+    failureHandler: (req, res, act) => {
+        res.redirect('/unauthorized')
+    }
+})
+
+roles.use(function (req, act) {
+    if(req.user == null){ console.log("HIT"); return act === 'anonymous' }
+})
+
+roles.use('loggedIn', (req) => {
+    if(req.user.level > 0){ return true }
+})
+
+roles.use('admin', (req) => {
+    if(req.user.level > 1){ return true }
+})
+
+function loginCheck(req, res, next){
+    if(req.user == null){ res.redirect('/login') }
 }
 
 async function getUserLevel(id){
@@ -56,5 +75,6 @@ module.exports = {
     initAuth: initAuth,
     getUserLevel: getUserLevel,
     getUserFullInfo: getUserFullInfo,
-    noToken: noToken
+    loginCheck: loginCheck,
+    roles: roles
 }

@@ -30,10 +30,12 @@ app.use(cookieSession({
 app.use(session({ secret: process.env.SESSION_SECRET }));
 app.use(passport.initialize());
 app.use(passport.session())
+app.use(auth.roles.middleware())
 app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, '../views'))
 
-app.use('/', require('./routes/routes').router)
 app.use('/', require('./routes/auth').router)
+app.use('/', require('./routes/routes').router)
 app.use('/', require('./routes/data').router)
 
 app.use('/dist',express.static(path.join(__dirname, '../public/html/dist')));
