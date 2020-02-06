@@ -37,6 +37,15 @@ router.get('/piket', auth.roles.can('loggedIn'), async function(req, res) {
     res.render('pages/guru/piket', { profile: profile, level: req.user.level, page: "piket", category: "guru" });
 });
 
+router.get('/student/profile', auth.roles.can('loggedIn'), async function(req, res) {
+    var nis = req.query.nis
+    db.query('SELECT * from pelajar where nis=?', [nis], function(err, result) {
+        var data = result;
+        console.log(data)
+        res.render('pages/student/profile', { data: data, page: "profile", category: "guru", level: req.user.level })
+    })
+})
+
 module.exports = {
     router: router
 }

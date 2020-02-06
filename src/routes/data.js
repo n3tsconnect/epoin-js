@@ -6,6 +6,8 @@ const bodyParser = require('body-parser')
 let fs = require('fs');
 var uuid = require("uuid");
 var path = require('path');
+const url = require('url');    
+
 
 const multer = require('multer');
 
@@ -98,6 +100,7 @@ router.post('/post/name_search', auth.roles.can('loggedIn'), function(req, res) 
         res.end()
     })
 })
+
 
 module.exports = {
     router: router,
