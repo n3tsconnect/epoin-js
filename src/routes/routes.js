@@ -20,9 +20,11 @@ let storage = multer.diskStorage({
 let upload = multer({storage: storage})
 
 router.get('/', async function(req, res) {
-    if(req.user == null) { res.redirect('/login') }
-    profile = req.user.profile;  
-    res.render('pages/index', { profile: profile, level: req.user.level, page: "home", category: "home" });
+    if(req.user == null) { res.redirect('/login') } 
+    else {
+        profile = req.user.profile;  
+        res.render('pages/index', { profile: profile, level: req.user.level, page: "home", category: "home" });
+    }   
 });
 
 router.get('/add-guru', auth.roles.can('admin'), async function(req, res) {
