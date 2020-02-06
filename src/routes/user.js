@@ -6,6 +6,7 @@ let fs = require('fs');
 var uuid = require("uuid");
 var path = require('path');
 const url = require('url');    
+const bodyParser = require('body-parser')
 
 
 const multer = require('multer');
@@ -69,6 +70,20 @@ router.post('/api/user/add-siswa', auth.roles.can('admin'), function(req, res) {
         res.status(200)
         res.end()
         console.log(result)
+    })
+})
+
+router.post('/api/user/edit-siswa', auth.roles.can('admin'), function(req, res) {
+    var nama = req.body.nama;
+        nis = req.body.nis;
+        kelas = req.body.kelas;
+        email = req.body.email;
+        telpon = req.body.telpon;
+
+    db.query("UPDATE pelajar SET nama = ?, nis = ?, kelas = ?, email = ?, telpon = ? WHERE nis = ?", [nama, nis, kelas, email, telpon, nis], function(err, result) {
+        if (err) throw err;
+        res.status(200)
+        res.end()
     })
 })
 

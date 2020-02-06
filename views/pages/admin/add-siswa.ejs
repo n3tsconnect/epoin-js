@@ -80,7 +80,7 @@
                       </div>
                       <div class="modal-body">
                         <div class="m-4 pb-4">
-                            <form role="form" enctype="multipart/form-data" method="post" id="add-siswa" action="/post/add-siswa">
+                            <form role="form" enctype="multipart/form-data" method="post" id="add-siswa" action="/api/user/add-siswa">
                               <div class="form-group">
                                   <label for="nama">Nama</label>
                                   <input type="text" class="form-control" id="form-input-nama" placeholder="Nama Siswa" name="nama">
@@ -168,7 +168,7 @@
                         </div>
                         <div class="modal-body">
                           <div class="m-4 pb-4">
-                              <form role="form" enctype="multipart/form-data" method="post" id="edit-siswa" action="/post/edit-siswa">
+                              <form role="form" method="post" id="edit-siswa" action="/api/user/edit-siswa">
                                 <div class="form-group">
                                     <label for="nama">Nama</label>
                                     <input type="text" class="form-control" id="form-edit-nama" placeholder="Nama Siswa" name="nama">
@@ -333,7 +333,7 @@
               var email
 
               $.ajax({
-                url: '/post/siswa-data',
+                url: '/api/user/siswa-data',
                 type: 'POST',
                 data: {
                   id: userid
@@ -401,12 +401,13 @@
               }
           })
         })
+
         $("#upload-image-siswa").submit(function(e) {
           e.preventDefault();
           var formData = new FormData(this);
           $.ajax({
             type: "POST",
-            url: "/post/upload-image-siswa",
+            url: "/api/user/upload-image-siswa",
             data: formData,
             processData: false,
             contentType: false,
@@ -418,6 +419,26 @@
             }
           })
         })
+
+        $("#edit-siswa").submit(function(e) {
+          e.preventDefault();
+          var post_url = $(this).attr("action");
+          var request_method = $(this).attr("method");
+          var form_data = $(this).serialize();
+          $.ajax({
+              url: post_url,
+              type: request_method,
+              data: form_data,
+              beforeSend: function() {
+                $("#modal-edit").modal('toggle');
+              },
+              success: function() {
+                refreshtable();
+                refreshkelas();
+                alert("Edit siswa berhasil!")
+              }
+          })
+        })       
 
 
       })

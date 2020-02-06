@@ -47,7 +47,7 @@
                                 <h3 class="widget-user-username"><%= data[0]['nama'] %></h3>
                               </div>
                               <div class="widget-user-image">
-                                <img class="img-circle elevation-2" src="<%= profile.photos[0].value %>" alt="User Avatar">
+                                <img class="img-circle elevation-2" src="<%= data[0]['foto'] %>" alt="User Avatar">
                               </div>
                               <div class="card-footer">
                                 <div class="row">
@@ -86,11 +86,63 @@
                             </div>
                           <!-- /.box-body -->
                       </div>
-                  </div>
-  
-                    </div>
-                  <!-- /.col-md-6 -->
+                  </div> 
                 </div>
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card">
+                          <div class="card-header">
+                            <h3 class="card-title">Pelanggaran Siswa</h3>
+                            <button type="button" class="btn btn-sm btn-success float-right" data-toggle="modal" data-target="#modal-add"><i class="fas fa-plus"></i></button>
+                          </div>
+                          <!-- /.card-header -->
+                          <div class="card-body">
+                            <div id="example2_wrapper" class="dataTables_wrapper dt-bootstrap4"><div class="row"><div class="col-sm-12 col-md-6"></div><div class="col-sm-12 col-md-6"></div></div><div class="row"><div class="col-sm-12"><table id="student-table" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
+                              <thead>
+                              <tr role="row">
+                                <th class="sorting_asc text-center" tabindex="0" width="4%" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="User ID: activate to sort column descending">No</th>
+                                <th class="sorting text-center" width="25%" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="NIS: activate to sort column ascending">Jenis Pelanggaran</th>
+                                <th class="sorting text-center" width="20%" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Nama: activate to sort column ascending">Waktu dan Tanggal</th>
+                                <th class="sorting text-center" tabindex="0" width="8%" aria-controls="example2" rowspan="1" colspan="1" aria-label="Kelas">Jumlah Deduksi Poin</th>
+                                <th class="sorting text-center" width="10%" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Status">Edit</th>
+                              </tr>
+                              </thead>
+                              <tbody class="tbody">
+                              </tbody>
+                              
+                            </table></div></div></div></div></div>
+                          </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card">
+                          <div class="card-header">
+                            <h3 class="card-title">Izin Keluar Siswa</h3>
+                            <button type="button" class="btn btn-sm btn-success float-right" data-toggle="modal" data-target="#modal-add"><i class="fas fa-plus"></i></button>
+                          </div>
+                          <!-- /.card-header -->
+                          <div class="card-body">
+                            <div id="example2_wrapper" class="dataTables_wrapper dt-bootstrap4"><div class="row"><div class="col-sm-12 col-md-6"></div><div class="col-sm-12 col-md-6"></div></div><div class="row"><div class="col-sm-12"><table id="student-table" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
+                              <thead>
+                              <tr role="row">
+                                <th class="sorting_asc text-center align-middle" tabindex="0" width="4%" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="User ID: activate to sort column descending">No</th>
+                                <th class="sorting text-center" width="25%" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="NIS: activate to sort column ascending">Alasan Izin</th>
+                                <th class="sorting text-center" width="20%" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Nama: activate to sort column ascending">Waktu dan Tanggal</th>
+                                <th class="sorting text-center" tabindex="0" width="8%" aria-controls="example2" rowspan="1" colspan="1" aria-label="Kelas">Jenis</th>
+                                <th class="sorting text-center" width="10%" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Status">Durasi</th>
+                                <th class="sorting text-center" width="10%" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Status">Sisa Waktu</th>
+                              </tr>
+                              </thead>
+                              <tbody class="tbody">
+                              </tbody>
+                              
+                            </table></div></div></div></div></div>
+                          </div>
+                </div>
+                  <!-- /.col-md-6 -->
+              </div>
                 
                 <!-- /.row -->
               </div><!-- /.container-fluid -->
