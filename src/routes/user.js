@@ -2,7 +2,6 @@ const express = require('express')
 let router = express.Router()
 const auth = require('../auth');
 const db = require('../../db/mysql_query');
-const bodyParser = require('body-parser')
 let fs = require('fs');
 var uuid = require("uuid");
 var path = require('path');
@@ -22,7 +21,7 @@ let storage = multer.diskStorage({
 
 let upload = multer({storage: storage})
 
-router.get('/post/teacher-table', auth.roles.can('admin'), function(req, res) {
+router.get('/api/user/teacher-table', auth.roles.can('admin'), function(req, res) {
     db.query("select * from users", function(err, result){
         if (err) throw err;
         res.json(result)
@@ -30,14 +29,14 @@ router.get('/post/teacher-table', auth.roles.can('admin'), function(req, res) {
     })
 })
 
-router.get('/post/student-table', auth.roles.can('admin'), function(req, res) {
+router.get('/api/user/student-table', auth.roles.can('admin'), function(req, res) {
     db.query("SELECT p.nis, p.nama, p.status, p.kelas, k.id_kelas, k.nama_kelas FROM pelajar as p LEFT JOIN kelas AS k ON p.kelas = k.id_kelas", function(err, result){
         if (err) throw err;
         res.json(result)
     })
 })
 
-router.get('/post/list-kelas', auth.roles.can('admin'), function(req, res) {
+router.get('/api/user/list-kelas', auth.roles.can('admin'), function(req, res) {
     db.query("SELECT * FROM kelas", function(err, result){
         if (err) throw err;
         res.json(result)
@@ -45,7 +44,7 @@ router.get('/post/list-kelas', auth.roles.can('admin'), function(req, res) {
     })
 })
 
-router.post('/post/add-guru', auth.roles.can('admin'), function(req, res) {
+router.post('/api/user/add-guru', auth.roles.can('admin'), function(req, res) {
     console.log(req.body);
     var id = req.body.id;
     var level;
@@ -62,7 +61,7 @@ router.post('/post/add-guru', auth.roles.can('admin'), function(req, res) {
     })
 })
 
-router.post('/post/add-siswa', auth.roles.can('admin'), function(req, res) {
+router.post('/api/user/add-siswa', auth.roles.can('admin'), function(req, res) {
     user = req.body;
     console.log(req.file);
     db.query("INSERT INTO pelajar (nama, nis, kelas, telpon, email) VALUES (?, ?, ?, ?, ?)", [user.nama, user.nis, user.kelas, user.telpon, user.email], function(err, result){
@@ -73,7 +72,7 @@ router.post('/post/add-siswa', auth.roles.can('admin'), function(req, res) {
     })
 })
 
-router.post('/post/upload-image-siswa', auth.roles.can('admin'), upload.single('gambarsiswa'), function(req, res) {
+router.post('/api/user/upload-image-siswa', auth.roles.can('admin'), upload.single('gambarsiswa'), function(req, res) {
     var imageurl = '/public/image/' + req.file.filename;
     db.query("UPDATE pelajar SET foto = ? WHERE nis = ?", [imageurl, req.body.nisn], function(err, result) {
         if (err) throw err;
@@ -82,7 +81,7 @@ router.post('/post/upload-image-siswa', auth.roles.can('admin'), upload.single('
     })    
 })
 
-router.post('/post/siswa-data', auth.roles.can('admin'), function(req, res) {
+router.post('/api/user/siswa-data', auth.roles.can('admin'), function(req, res) {
     var id = req.body.id //Get User ID from POST Request Body
     db.query("SELECT * FROM pelajar WHERE nis = ?", [id], function(err, result){
         if (err) throw err;
@@ -92,7 +91,7 @@ router.post('/post/siswa-data', auth.roles.can('admin'), function(req, res) {
     })  
 })
 
-router.post('/post/name_search', auth.roles.can('loggedIn'), function(req, res) {
+router.post('/api/user/name_search', auth.roles.can('loggedIn'), function(req, res) {
     db.query("SELECT nama FROM pelajar", function(err, result){
         if (err) throw err;
         console.log("1 request")

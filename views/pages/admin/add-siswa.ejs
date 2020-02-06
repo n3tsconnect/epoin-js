@@ -237,7 +237,7 @@
     <script>
     function refreshtable() {
         $.ajax({
-            url: '/post/student-table',
+            url: '/api/user/student-table',
             method: 'GET',
             success: function(response) {
               $("#student-table .tbody").empty();
@@ -278,7 +278,7 @@
     
     function refreshkelas() {
       $.ajax({
-          url: '/post/list-kelas',
+          url: '/api/user/list-kelas',
           method: 'GET',
           success: function(response) {
             for(let i=0; i < response.length; i++) {
@@ -294,7 +294,7 @@
 
     async function kelasedit() {
       $.ajax({
-          url: '/post/list-kelas',
+          url: '/api/user/list-kelas',
           method: 'GET',
           success: function(response) {
             $("#kelas-edit").find('option').remove().end()

@@ -129,7 +129,7 @@
     <script>
     function refreshtable() {
         $.ajax({
-            url: '/post/teacher-table',
+            url: '/api/user/teacher-table',
             method: 'GET',
             success: function(response) {
               $("#users-table .tbody").empty();
